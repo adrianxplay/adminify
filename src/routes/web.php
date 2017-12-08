@@ -3,7 +3,7 @@
 Route::prefix('admin')->group(function(){
 
   Route::get('dashboard', function(){
-    dd('test');
+    return view("adminify::layouts.dashboard");
   });
 
 });

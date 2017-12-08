@@ -14,6 +14,10 @@ class AdminifyServiceProvider extends ServiceProvider
     public function boot()
     {
         include __DIR__.'/routes/web.php';
+
+        $this->publishes([
+          __DIR__.'/resources/assets/' => public_path('vendor/adrianxplay')
+        ], 'public');
     }
 
     /**
@@ -23,6 +27,6 @@ class AdminifyServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->loadViewsFrom(__DIR__."/resources/views", "adminify");
     }
 }

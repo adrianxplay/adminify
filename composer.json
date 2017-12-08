@@ -1,0 +1,27 @@
+{
+    "name": "adrianxplay/adminify",
+    "description": "CRUD for Laravel",
+    "license": "MIT License",
+    "authors": [
+        {
+            "name": "Adrian Piña",
+            "email": "adrianxplay@gmail.com"
+        }
+    ],
+    "require": {},
+    "autoload": {
+      "psr-4": {
+        "Adrianxplay\\Adminify": "src/"
+      }
+    },
+    "extra": {
+      "laravel": {
+        "providers": [
+          "Adrianxplay\\Adminify\\AdminifyServiceProvider"
+        ],
+        "aliases": {
+          "Adminify": "Adrianxplay\\Adminify\\AdminifyFacade"
+        }
+      }
+    }
+}

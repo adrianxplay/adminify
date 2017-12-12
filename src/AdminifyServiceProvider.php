@@ -22,6 +22,10 @@ class AdminifyServiceProvider extends ServiceProvider
           __DIR__.'/resources/assets/' => public_path('vendor/adrianxplay')
         ], 'public');
 
+        $this->publishes([
+          __DIR__.'/config/adminify.php' => config_path('adminify.php')
+        ]);
+
 
         if($this->app->runningInConsole()){
           $this->commands([

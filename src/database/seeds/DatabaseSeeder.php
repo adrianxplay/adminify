@@ -25,7 +25,7 @@ class DatabaseSeeder extends Seeder
             'description' => 'Root user',
           ]);
         }catch(Exception $e){
-          dd($e);
+          throw $e;
         }
         finally{
           echo "success";

@@ -27,6 +27,8 @@ class Admin extends Command
     public function __construct()
     {
         parent::__construct();
+
+        // $this->email = $email;
     }
 
     /**
@@ -36,6 +38,6 @@ class Admin extends Command
      */
     public function handle()
     {
-        //
+
     }
 }

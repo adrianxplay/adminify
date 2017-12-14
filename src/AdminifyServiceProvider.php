@@ -16,6 +16,8 @@ class AdminifyServiceProvider extends ServiceProvider
     {
         include __DIR__.'/routes/web.php';
 
+        define('__APPNAMESPACE__', config('adminify.app_namespace'));
+
         $this->loadMigrationsFrom(__DIR__.'/database/migrations');
 
         $this->publishes([

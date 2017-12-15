@@ -2,8 +2,10 @@
 
 Route::prefix('admin')->group(function(){
 
-  Route::get('dashboard', function(){
-    return view("adminify::layouts.dashboard");
-  });
+  $namespace = 'Adrianxplay\Adminify\Http\Controllers\\';
+
+  Route::get('dashboard', $namespace.'DashboardController@index');
+
+  Route::get('dashboard/{slug}', $namespace.'DashboardController@list_model');
 
 });

@@ -2,7 +2,7 @@
 namespace Adrianxplay\Adminify\Commands;
 
 use Illuminate\Console\Command;
-
+use Adrianxplay\Adminify\Role;
 class Admin extends Command
 {
     /**
@@ -37,6 +37,12 @@ class Admin extends Command
     public function handle()
     {
         $email = $this->argument("email");
+        $User = get_class_instance("User");
+        if($User->whereEmail($email)->exists() && $this->option("create")){
+          $this->error("User already exists");
+          $this->info("To give user admin permissions use adminify:admin without --create");
+          return;
+        }
         if($this->option("create")){
           $name = $this->ask("Admin name");
           $confirm = $this->confirm("Create user with default password [123456789]?");
@@ -54,8 +60,36 @@ class Admin extends Command
             $password = bcrypt("123456789");
           }
 
+          $admin_role = Role::whereSlug('admin')->first();
+
+          try {
+            $admin = $User->create([
+              'name' => $name,
+              'password' => $password,
+              'email' => $email,
+            ]);
+            $admin->role_id  = $admin_role->id;
+
+            $admin->save();
+          } catch (\Exception $e) {
+            throw $e;
+          }
+          finally {
+            $this->info('Success!');
+          }
+
+
+          // $admin->
+
         }
-        else
-          $this->info("ola k ase");
+        else{
+          $admin_role = Role::whereSlug('admin')->first();
+          $admin = $User->whereEmail($email)->first();
+          $admin->role_id = $admin_role->id;
+          $admin->save();
+
+          $this->info('User has root access now');
+        }
+
     }
 }

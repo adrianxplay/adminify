@@ -31,8 +31,23 @@
                       <tbody>
                         @foreach ($data as $result)
                           <tr>
+                            @php
+                              $k = 0;
+                            @endphp
                             @foreach ($properties as $property)
-                              <td>{{$result[$property]}}</td>
+                              @if($k == 1)
+                                <td>
+                                  <a href="{{route('adminify.edit-model', [
+                                    'slug' => $slug,
+                                    'id' => $result->id
+                                    ])}}">{{$result[$property]}}</a>
+                                </td>
+                              @else
+                                <td>{{$result[$property]}}</td>
+                              @endif
+                              @php
+                                $k++;
+                              @endphp
                             @endforeach
                           </tr>
                         @endforeach

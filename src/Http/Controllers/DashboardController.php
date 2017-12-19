@@ -29,12 +29,12 @@ class DashboardController extends Controller
       // TODO: add offset validation
       $data = $Model->paginate(10);
 
-      dd($data);
 
       return view("adminify::layouts.list")
              ->with([
                'data' => $data,
-               'properties' => $Model->properties
+               'properties' => $Model->properties,
+               'slug' => $slug
              ]);
     }
 
@@ -48,7 +48,12 @@ class DashboardController extends Controller
       $ModelAdmin = class_lookup($class_name);
       $Model = $ModelAdmin->get_model();
 
-      dd($Model->findOrFail($id));
+      $result = $Model->findOrFail($id);
+
+      return view("adminify::layouts.edit", [
+        'data' => $result,
+        'properties' => $ModelAdmin->properties
+      ]);
     }
 
 }

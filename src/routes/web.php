@@ -6,6 +6,9 @@ Route::prefix('admin')->group(function(){
 
   Route::get('dashboard', $namespace.'DashboardController@index');
   Route::get('dashboard/{slug}', $namespace.'DashboardController@list_model');
-  Route::get('dashboard/{slug}/{id}', $namespace.'DashboardController@edit_model');
+  Route::get(
+    'dashboard/{slug}/{id}',
+    $namespace.'DashboardController@edit_model'
+  )->name('adminify.edit-model');
 
 });

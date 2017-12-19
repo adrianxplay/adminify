@@ -6,7 +6,8 @@ use Adrianxplay\Adminify\Admin\Admin;
 class UserAdmin extends Admin{
 
   public $properties = [
-    'id', 'name', 'email', 'created_at'
+    'id', 'name', 'email', 'created_at',
+    'role_id'
   ];
 
   public $relationships = [];

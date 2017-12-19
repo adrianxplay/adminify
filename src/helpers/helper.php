@@ -1,11 +1,24 @@
 <?php
 
+/**
+ * Get the instance of a class on the default
+ * laravel namespace.
+ *
+ * @return object
+ */
+
 function get_class_instance($class_name){
   $class = __APPNAMESPACE__."\\".$class_name;
   return new $class();
 }
 
-
+/**
+ * Search for an Admin class to show on the administration site
+ * first looks in the the default laravel namespace
+ * if it fails try searching on the package namespace
+ *
+ * @return object
+ */
 function class_lookup($class_name){
   $class = __APPNAMESPACE__."\\Admin\\".$class_name;
   if(class_exists($class))

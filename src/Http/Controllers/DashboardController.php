@@ -7,15 +7,29 @@ use Adrianxplay\Adminify\Admin\UserAdmin;
 
 class DashboardController extends Controller
 {
+    /**
+     *  Show the default dashboar view
+     *
+     *  @return view
+     */
     function index(Request $request){
       return view("adminify::layouts.dashboard");
     }
 
+    /**
+     * Get the list view for a Admin Model
+     *
+     * @return view
+     */
     function list_model(Request $request, $slug){
       $class_name = ucfirst($slug)."Admin";
+      // TODO: add class not found exception validation
       $Model = class_lookup($class_name);
 
+      // TODO: add offset validation
       $data = $Model->paginate(10);
+
+      dd($data);
 
       return view("adminify::layouts.list")
              ->with([
@@ -24,14 +38,17 @@ class DashboardController extends Controller
              ]);
     }
 
-    function list_user(Request $request){
-      $admin = new UserAdmin();
-      $users = $admin->paginate(10);
+    /**
+     * Get the edit view for a Admin Model object
+     * @return view
+     */
 
-      return view("adminify::layouts.list")
-             ->with([
-               'data' => $users,
-               'properties' => $admin->properties
-             ]);
+    function edit_model(Request $request, $slug, $id){
+      $class_name = ucfirst($slug)."Admin";
+      $ModelAdmin = class_lookup($class_name);
+      $Model = $ModelAdmin->get_model();
+
+      dd($Model->findOrFail($id));
     }
+
 }

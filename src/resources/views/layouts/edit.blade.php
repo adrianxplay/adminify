@@ -19,14 +19,17 @@
       <div class="col-md-12 col-lg-12 col-sm-12">
           <div class="white-box">
               <h3 class="box-title">Edit User</h3>
-                <form action="" class="form-horizontal">
-                  @foreach ($properties as $prop)
-                    <div class="form-group">
-                      <label for="{{$prop}}" class="col-md-12">{{$prop}}</label>
-                      <div class="col-md-12">
-                        <input type="text" class="form-control" value="{{$data[$prop]}}">
-                      </div>
-                    </div>
+                <form action="{{route('adminify.update-model', [
+                  'slug' => $slug, 'id' => $id
+                  ])}}" class="form-horizontal" method="POST">
+
+                  {{ csrf_field() }}
+
+                  @foreach ($properties as $key => $value)
+                    @php
+                      $view_name = "adminify::partials._".$value."-field";
+                    @endphp
+                    @include($view_name)
                   @endforeach
                   <button type="submit" class="btn btn-success waves-effect waves-light m-r-10">Update</button>
                 </form>

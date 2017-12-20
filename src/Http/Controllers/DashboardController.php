@@ -33,7 +33,7 @@ class DashboardController extends Controller
       return view("adminify::layouts.list")
              ->with([
                'data' => $data,
-               'properties' => $Model->properties,
+               'properties' => $Model->read_only,
                'slug' => $slug
              ]);
     }
@@ -52,8 +52,30 @@ class DashboardController extends Controller
 
       return view("adminify::layouts.edit", [
         'data' => $result,
-        'properties' => $ModelAdmin->properties
+        'properties' => $ModelAdmin->properties,
+        'slug' => $slug,
+        'id' => $id
       ]);
+    }
+
+    /**
+     * Update a model
+     * @return view
+     */
+    function update_model(Request $request, $slug, $id){
+      $class_name = ucfirst($slug)."Admin";
+      $ModelAdmin = class_lookup($class_name);
+      $Model = $ModelAdmin->get_model();
+
+      $result = $Model->findOrFail($id);
+      $data = get_form_fields($request->toArray());
+
+      foreach ($data as $key => $value) {
+        $result[$key] = $value;
+      }
+
+      $result->save();
+
     }
 
 }

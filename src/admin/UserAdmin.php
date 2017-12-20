@@ -2,16 +2,25 @@
 namespace Adrianxplay\Adminify\Admin;
 
 use Adrianxplay\Adminify\Admin\Admin;
+use App\User;
 
 class UserAdmin extends Admin{
 
+  public $read_only = [
+    'id', 'name', 'email', 'role_id'
+  ];
+
   public $properties = [
-    'id', 'name', 'email', 'created_at',
-    'role_id'
+    'id' => "primary",
+    'name' => "string",
+    'email' => "email",
+    'password' => 'password'
   ];
 
   public $relationships = [];
 
   public $class_name = "User";
+
+  // public $test = App\User::class;
 
 }

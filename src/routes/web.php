@@ -1,6 +1,6 @@
 <?php
 
-Route::prefix('admin')->group(function(){
+Route::middleware('web')->prefix('admin')->group(function(){
 
   $namespace = 'Adrianxplay\Adminify\Http\Controllers\\';
 
@@ -10,5 +10,10 @@ Route::prefix('admin')->group(function(){
     'dashboard/{slug}/{id}',
     $namespace.'DashboardController@edit_model'
   )->name('adminify.edit-model');
+
+  Route::post(
+    'dashboard/{slug}/{id}',
+    $namespace.'DashboardController@update_model'
+  )->name('adminify.update-model');
 
 });

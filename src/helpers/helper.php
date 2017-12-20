@@ -7,8 +7,7 @@
  * @return object
  */
 
-function get_class_instance($class_name){
-  $class = __APPNAMESPACE__."\\".$class_name;
+function get_class_instance($class){
   return new $class();
 }
 
@@ -20,8 +19,7 @@ function get_class_instance($class_name){
  * @return object
  */
 function class_lookup($class_name){
-  $class = __APPNAMESPACE__."\\Admin\\".$class_name;
-  if(class_exists($class))
+  if(class_exists($class_name))
     return new $class();
   else if(class_exists("Adrianxplay\\Adminify\\Admin\\".$class_name)){
     $class = "Adrianxplay\\Adminify\\Admin\\".$class_name;

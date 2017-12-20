@@ -14,13 +14,10 @@ class UserAdmin extends Admin{
     'id' => "primary",
     'name' => "string",
     'email' => "email",
-    'password' => 'password'
   ];
 
   public $relationships = [];
 
-  public $class_name = "User";
-
-  // public $test = App\User::class;
+  public $class_name = User::class;
 
 }

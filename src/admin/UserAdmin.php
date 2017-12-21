@@ -11,14 +11,20 @@ class UserAdmin extends Admin{
   ];
 
   public $properties = [
-    'id' => "primary",
-    // 'id' => [
-    //   'field_type' => 'primary',
-    //   'validation_rules' => 'required|unique'
-    // ]
-    'name' => "string,required",
-    'email' => "email",
-    'password' => 'password'
+    'id' => [
+      'field_type' => 'primary',
+      'validation_rules' => 'required|unique'
+    ],
+    'name' => [
+      'field_type' => 'string',
+      'validation_rules' => 'required'
+    ],
+    'email' => [
+      'field_type' => 'email'
+    ],
+    'password' => [
+      'field_type' => 'password'
+    ]
   ];
 
   public $relationships = [];

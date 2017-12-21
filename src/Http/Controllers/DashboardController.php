@@ -73,9 +73,9 @@ class DashboardController extends Controller
       $validation_rules = [];
 
       foreach ($ModelAdmin->properties as $field_name => $rules) {
-        $model_string = $rules;
-        $model_data = explode(",", $model_string);
-        $form_type = $model_data[0];
+        $model_array = $rules;
+        $form_type = $model_array['field_type'];
+        $model_data = sizeof($model_array) > 1 ? $model_array['validation_rules'] : "";
         $validation_str = "";
 
         if($form_type === "primary")
@@ -86,15 +86,14 @@ class DashboardController extends Controller
         else if($field_name === "password")
           $validation_str .= "confirmed|";
 
-        if(sizeof($model_data) > 1)
-          $validation_str .= $model_data[1];
+        if(! empty($model_data))
+          $validation_str .= $model_data;
 
         $validation_rules[$field_name] = $validation_str;
 
       }
 
-      Validator::make($request->all(), $validation_rules)
-      ->validate();
+      Validator::make($request->all(), $validation_rules)->validate();
 
       $update = $request->all();
 

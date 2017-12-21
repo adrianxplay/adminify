@@ -42,7 +42,7 @@
 
                   @foreach ($properties as $key => $value)
                     @php
-                      $name = explode(",", $value)[0];
+                      $name = $value['field_type'];
                       $view_name = "adminify::partials._".$name."-field";
                     @endphp
                     @include($view_name)

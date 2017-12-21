@@ -40,7 +40,7 @@ class DashboardController extends Controller
     }
 
     /**
-     * Get the edit view for a Admin Model object
+     * Get the edit view for a edit an Model object
      * @return view
      */
 
@@ -64,6 +64,76 @@ class DashboardController extends Controller
      * @return view
      */
     function update_model(Request $request, $slug, $id){
+
+      $class_name = ucfirst($slug)."Admin";
+      $ModelAdmin = class_lookup($class_name);
+      $Model = $ModelAdmin->get_model();
+      $result = $Model->findOrFail($id);
+      $data = $request->toArray();
+      $validation_rules = [];
+
+      foreach ($ModelAdmin->properties as $field_name => $rules) {
+        $model_array = $rules;
+        $form_type = $model_array['field_type'];
+        $model_data = sizeof($model_array) > 1 ? $model_array['validation_rules'] : "";
+        $validation_str = "";
+
+        if($form_type === "primary")
+          continue;
+
+        if($field_name === "email")
+          $validation_str .= "$field_name|";
+        else if($field_name === "password")
+          $validation_str .= "confirmed|";
+
+        if(! empty($model_data))
+          $validation_str .= $model_data;
+
+        $validation_rules[$field_name] = $validation_str;
+
+      }
+
+      Validator::make($request->all(), $validation_rules)->validate();
+
+      $update = $request->all();
+
+      if(array_key_exists("password", $update)){
+        if(empty($update["password"]))
+          $update["password"] = $result->password;
+        else
+          $update["password"] = bcrypt($update["password"]);
+      }
+
+      $result->update($update);
+
+      $result->save();
+
+      return redirect()->back()->with('success', 'Model updated!');
+
+    }
+
+    /**
+     * Get the edit view for create a new Model object
+     * @return view
+     */
+
+    function new_model(Request $request, $slug){
+      $class_name = ucfirst($slug)."Admin";
+      $ModelAdmin = class_lookup($class_name);
+      $Model = $ModelAdmin->get_model();
+
+      return view("adminify::layouts.create", [
+        'data' => [],
+        'properties' => $ModelAdmin->properties,
+        'slug' => $slug
+      ]);
+    }
+
+    /**
+     * Create a model instance
+     * @return view
+     */
+    function create_model(Request $request, $slug, $id){
 
       $class_name = ucfirst($slug)."Admin";
       $ModelAdmin = class_lookup($class_name);

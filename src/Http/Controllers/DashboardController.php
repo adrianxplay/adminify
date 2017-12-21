@@ -4,10 +4,17 @@ namespace Adrianxplay\Adminify\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Adrianxplay\Adminify\Admin\UserAdmin;
+use Adrianxplay\Adminify\Traits\ModelValidator;
 use Validator;
 
 class DashboardController extends Controller
 {
+    /**
+     * Validation rules trait
+     *
+     */
+    use ModelValidator;
+
     /**
      *  Show the default dashboar view
      *
@@ -70,28 +77,7 @@ class DashboardController extends Controller
       $Model = $ModelAdmin->get_model();
       $result = $Model->findOrFail($id);
       $data = $request->toArray();
-      $validation_rules = [];
-
-      foreach ($ModelAdmin->properties as $field_name => $rules) {
-        $model_array = $rules;
-        $form_type = $model_array['field_type'];
-        $model_data = sizeof($model_array) > 1 ? $model_array['validation_rules'] : "";
-        $validation_str = "";
-
-        if($form_type === "primary")
-          continue;
-
-        if($field_name === "email")
-          $validation_str .= "$field_name|";
-        else if($field_name === "password")
-          $validation_str .= "confirmed|";
-
-        if(! empty($model_data))
-          $validation_str .= $model_data;
-
-        $validation_rules[$field_name] = $validation_str;
-
-      }
+      $validation_rules = $this->getValidationRules($ModelAdmin->properties);
 
       Validator::make($request->all(), $validation_rules)->validate();
 
@@ -139,28 +125,7 @@ class DashboardController extends Controller
       $ModelAdmin = class_lookup($class_name);
       $Model = $ModelAdmin->get_model();
       $data = $request->toArray();
-      $validation_rules = [];
-
-      foreach ($ModelAdmin->properties as $field_name => $rules) {
-        $model_array = $rules;
-        $form_type = $model_array['field_type'];
-        $model_data = sizeof($model_array) > 1 ? $model_array['validation_rules'] : "";
-        $validation_str = "";
-
-        if($form_type === "primary")
-          continue;
-
-        if($field_name === "email")
-          $validation_str .= "$field_name|";
-        else if($field_name === "password")
-          $validation_str .= "confirmed|";
-
-        if(! empty($model_data))
-          $validation_str .= $model_data;
-
-        $validation_rules[$field_name] = $validation_str;
-
-      }
+      $validation_rules = $this->getValidationRules($ModelAdmin->properties);
 
       Validator::make($request->all(), $validation_rules)->validate();
 

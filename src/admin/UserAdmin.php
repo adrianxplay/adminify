@@ -12,8 +12,9 @@ class UserAdmin extends Admin{
 
   public $properties = [
     'id' => "primary",
-    'name' => "string",
-    'email' => "email",
+    'name' => "string|required",
+    'email' => "email|required",
+    'password' => 'password'
   ];
 
   public $relationships = [];

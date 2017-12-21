@@ -18,6 +18,16 @@
   <div class="row">
       <div class="col-md-12 col-lg-12 col-sm-12">
           <div class="white-box">
+              @if ($errors->any())
+                <div class="alert alert-danger">
+                  @foreach ($errors->all() as $error)
+                    <p>
+                      <strong>Error!</strong>
+                      {{$error}}
+                    </p>
+                  @endforeach
+                </div>
+              @endif
               <h3 class="box-title">Edit User</h3>
                 <form action="{{route('adminify.update-model', [
                   'slug' => $slug, 'id' => $id
@@ -27,7 +37,8 @@
 
                   @foreach ($properties as $key => $value)
                     @php
-                      $view_name = "adminify::partials._".$value."-field";
+                      $name = explode("|", $value)[0];
+                      $view_name = "adminify::partials._".$name."-field";
                     @endphp
                     @include($view_name)
                   @endforeach

@@ -4,6 +4,7 @@ namespace Adrianxplay\Adminify\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Adrianxplay\Adminify\Admin\UserAdmin;
+use Validator;
 
 class DashboardController extends Controller
 {
@@ -70,8 +71,46 @@ class DashboardController extends Controller
       $result = $Model->findOrFail($id);
       $data = get_form_fields($request->toArray());
 
-      foreach ($data as $key => $value) {
-        $result[$key] = $value;
+      $validation_rules = [];
+
+      foreach ($ModelAdmin->properties as $field_name => $rules) {
+        $field_name = strtolower($field_name);
+
+        if($field_name === "id")
+          continue;
+
+        $validation_str = "";
+        if($field_name === "email" || $field_name === "password"){
+          if($field_name === "password")
+            $field_name = "confirmed";
+          $validation_str.="$field_name|";
+        }
+
+
+        $tmp = explode("|", $rules);
+        $tmp = array_splice($tmp, 1);
+
+        if(!empty($tmp))
+          $validation_str .= implode("|", $tmp);
+
+        if(!empty($validation_str))
+          $validation_rules[$field_name."-field"] = $validation_str;
+
+      }
+
+      Validator::make($request->all(), $validation_rules)
+      ->validate();
+
+      foreach (remove_model_array_prefix($data) as $key => $value) {
+
+        if(strpos($key, "confirmation") !== false)
+          continue;
+
+        if(strtolower($key) === "password" && is_null($value))
+          continue;
+
+        if(strtolower($key) !== "id" || strtolower($key) !== "id")
+          $result[$key] = $value;
       }
 
       $result->save();

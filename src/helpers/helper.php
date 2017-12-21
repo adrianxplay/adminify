@@ -41,13 +41,18 @@ function get_form_fields(Array $array){
       return $array;
   }, ARRAY_FILTER_USE_KEY);
 
+  return $filtered;
+
+}
+
+
+function remove_model_array_prefix(Array $array){
   $results = [];
 
-  foreach($filtered as $key => $value){
+  foreach($array as $key => $value){
     $new_key = str_replace("-field", "", $key);
     $results[$new_key] = $value;
   }
 
   return $results;
-
 }

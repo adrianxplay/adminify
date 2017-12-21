@@ -50,7 +50,7 @@
                     @endif
                   @endforeach
 
-                  <button type="submit" class="btn btn-success waves-effect waves-light m-r-10">Update</button>
+                  <button type="submit" class="btn btn-success waves-effect waves-light m-r-10">Create</button>
                 </form>
           </div>
       </div>

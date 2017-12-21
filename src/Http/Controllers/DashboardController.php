@@ -133,12 +133,11 @@ class DashboardController extends Controller
      * Create a model instance
      * @return view
      */
-    function create_model(Request $request, $slug, $id){
+    function create_model(Request $request, $slug){
 
       $class_name = ucfirst($slug)."Admin";
       $ModelAdmin = class_lookup($class_name);
       $Model = $ModelAdmin->get_model();
-      $result = $Model->findOrFail($id);
       $data = $request->toArray();
       $validation_rules = [];
 
@@ -165,20 +164,15 @@ class DashboardController extends Controller
 
       Validator::make($request->all(), $validation_rules)->validate();
 
-      $update = $request->all();
+      $create = $request->all();
 
-      if(array_key_exists("password", $update)){
-        if(empty($update["password"]))
-          $update["password"] = $result->password;
-        else
-          $update["password"] = bcrypt($update["password"]);
+      if(array_key_exists("password", $create)){
+        $create["password"] = bcrypt($create["password"]);
       }
 
-      $result->update($update);
+      $Model->create($create);
 
-      $result->save();
-
-      return redirect()->back()->with('success', 'Model updated!');
+      return redirect()->back()->with('success', 'Model created!');
 
     }
 

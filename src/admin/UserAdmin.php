@@ -12,8 +12,12 @@ class UserAdmin extends Admin{
 
   public $properties = [
     'id' => "primary",
-    'name' => "string|required",
-    'email' => "email|required",
+    // 'id' => [
+    //   'field_type' => 'primary',
+    //   'validation_rules' => 'required|unique'
+    // ]
+    'name' => "string,required",
+    'email' => "email",
     'password' => 'password'
   ];
 

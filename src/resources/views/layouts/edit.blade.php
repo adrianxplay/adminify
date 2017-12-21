@@ -28,6 +28,11 @@
                   @endforeach
                 </div>
               @endif
+              @if (session('success'))
+                <div class="alert alert-success">
+                  <p>{{session('success')}}</p>
+                </div>
+              @endif
               <h3 class="box-title">Edit User</h3>
                 <form action="{{route('adminify.update-model', [
                   'slug' => $slug, 'id' => $id
@@ -37,7 +42,7 @@
 
                   @foreach ($properties as $key => $value)
                     @php
-                      $name = explode("|", $value)[0];
+                      $name = explode(",", $value)[0];
                       $view_name = "adminify::partials._".$name."-field";
                     @endphp
                     @include($view_name)

@@ -64,56 +64,52 @@ class DashboardController extends Controller
      * @return view
      */
     function update_model(Request $request, $slug, $id){
+
       $class_name = ucfirst($slug)."Admin";
       $ModelAdmin = class_lookup($class_name);
       $Model = $ModelAdmin->get_model();
-
       $result = $Model->findOrFail($id);
-      $data = get_form_fields($request->toArray());
-
+      $data = $request->toArray();
       $validation_rules = [];
 
       foreach ($ModelAdmin->properties as $field_name => $rules) {
-        $field_name = strtolower($field_name);
+        $model_string = $rules;
+        $model_data = explode(",", $model_string);
+        $form_type = $model_data[0];
+        $validation_str = "";
 
-        if($field_name === "id")
+        if($form_type === "primary")
           continue;
 
-        $validation_str = "";
-        if($field_name === "email" || $field_name === "password"){
-          if($field_name === "password")
-            $field_name = "confirmed";
-          $validation_str.="$field_name|";
-        }
+        if($field_name === "email")
+          $validation_str .= "$field_name|";
+        else if($field_name === "password")
+          $validation_str .= "confirmed|";
 
+        if(sizeof($model_data) > 1)
+          $validation_str .= $model_data[1];
 
-        $tmp = explode("|", $rules);
-        $tmp = array_splice($tmp, 1);
-
-        if(!empty($tmp))
-          $validation_str .= implode("|", $tmp);
-
-        if(!empty($validation_str))
-          $validation_rules[$field_name."-field"] = $validation_str;
+        $validation_rules[$field_name] = $validation_str;
 
       }
 
       Validator::make($request->all(), $validation_rules)
       ->validate();
 
-      foreach (remove_model_array_prefix($data) as $key => $value) {
+      $update = $request->all();
 
-        if(strpos($key, "confirmation") !== false)
-          continue;
-
-        if(strtolower($key) === "password" && is_null($value))
-          continue;
-
-        if(strtolower($key) !== "id" || strtolower($key) !== "id")
-          $result[$key] = $value;
+      if(array_key_exists("password", $update)){
+        if(empty($update["password"]))
+          $update["password"] = $result->password;
+        else
+          $update["password"] = bcrypt($update["password"]);
       }
 
+      $result->update($update);
+
       $result->save();
+
+      return redirect()->back()->with('success', 'Model updated!');
 
     }
 

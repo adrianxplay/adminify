@@ -11,13 +11,14 @@
     "require": {},
     "autoload": {
       "psr-4": {
-        "Adrianxplay\\Adminify": "src/"
+        "Adrianxplay\\Adminify\\": "src/"
       }
     },
     "extra": {
       "laravel": {
         "providers": [
-          "Adrianxplay\\Adminify\\AdminifyServiceProvider"
+          "Adrianxplay\\Adminify\\AdminifyServiceProvider",
+          "Adrianxplay\\Adminify\\AdminifyAuthServiceProvider"
         ],
         "aliases": {
           "Adminify": "Adrianxplay\\Adminify\\AdminifyFacade"

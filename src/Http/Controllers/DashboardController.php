@@ -5,6 +5,7 @@ namespace Adrianxplay\Adminify\Http\Controllers;
 use Illuminate\Http\Request;
 use Adrianxplay\Adminify\Admin\UserAdmin;
 use Adrianxplay\Adminify\Traits\ModelValidator;
+use Illuminate\Support\Facades\Gate;
 use Validator;
 
 class DashboardController extends Controller
@@ -21,7 +22,9 @@ class DashboardController extends Controller
      *  @return view
      */
     function index(Request $request){
-      return view("adminify::layouts.dashboard");
+      if(Gate::allows('read-dashboard', $request->user()))
+        return view("adminify::layouts.dashboard");
+      else abort(403, 'unauthorized action');
     }
 
     /**
@@ -30,6 +33,8 @@ class DashboardController extends Controller
      * @return view
      */
     function list_model(Request $request, $slug){
+      if(Gate::denies('read-model', $request->user()))
+        abort(403, 'unauthorized action');
       $class_name = ucfirst($slug)."Admin";
       // TODO: add class not found exception validation
       $Model = class_lookup($class_name);
@@ -52,6 +57,8 @@ class DashboardController extends Controller
      */
 
     function edit_model(Request $request, $slug, $id){
+      if(Gate::denies('update-model', $request->user()))
+        abort(403, 'unauthorized action');
       $class_name = ucfirst($slug)."Admin";
       $ModelAdmin = class_lookup($class_name);
       $Model = $ModelAdmin->get_model();
@@ -71,7 +78,8 @@ class DashboardController extends Controller
      * @return view
      */
     function update_model(Request $request, $slug, $id){
-
+      if(Gate::denies('update-model', $request->user()))
+        abort(403, 'unauthorized action');
       $class_name = ucfirst($slug)."Admin";
       $ModelAdmin = class_lookup($class_name);
       $Model = $ModelAdmin->get_model();
@@ -104,6 +112,8 @@ class DashboardController extends Controller
      */
 
     function new_model(Request $request, $slug){
+      if(Gate::denies('create-model', $request->user()))
+        abort(403, 'unauthorized action');
       $class_name = ucfirst($slug)."Admin";
       $ModelAdmin = class_lookup($class_name);
       $Model = $ModelAdmin->get_model();
@@ -120,7 +130,8 @@ class DashboardController extends Controller
      * @return view
      */
     function create_model(Request $request, $slug){
-
+      if(Gate::denies('create-model', $request->user()))
+        abort(403, 'unauthorized action');
       $class_name = ucfirst($slug)."Admin";
       $ModelAdmin = class_lookup($class_name);
       $Model = $ModelAdmin->get_model();

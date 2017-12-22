@@ -1,8 +1,12 @@
 <?php
 
-Route::middleware('web')->prefix('admin')->group(function(){
+Route::middleware(['web', 'auth'])->prefix('admin')->group(function(){
 
   $namespace = 'Adrianxplay\Adminify\Http\Controllers\\';
+
+  Route::get('/', function(){
+    return redirect('admin/dashboard');
+  });
 
   Route::get('dashboard', $namespace.'DashboardController@index');
   Route::get('dashboard/{slug}', $namespace.'DashboardController@list_model');

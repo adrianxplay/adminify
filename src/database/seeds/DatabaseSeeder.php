@@ -16,12 +16,12 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         // $this->call(UsersTableSeeder::class);
-        echo "creating admin role";
+        echo "creating root role";
         echo "\n";
         try{
           Role::create([
-            'role' => 'Administrator',
-            'slug' => 'admin',
+            'role' => 'Root',
+            'slug' => 'root',
             'description' => 'Root user',
           ]);
         }catch(Exception $e){
@@ -33,4 +33,39 @@ class DatabaseSeeder extends Seeder
         }
 
     }
+}
+
+class PermissionSeeder extends Seeder{
+  public function run(){
+
+    $editor_role = Role::whereSlug('editor')->first();
+
+    $p = Permission::create([
+      'permission' => 'create.user',
+      'description' => 'create users'
+    ]);
+
+    $editor_role->permissions()->save($p);
+
+    $p = Permission::create([
+      'permission' => 'read.user',
+      'description' => 'read users'
+    ]);
+
+    $editor_role->permissions()->save($p);
+
+    $p = Permission::create([
+      'permission' => 'update.user',
+      'description' => 'update users'
+    ]);
+
+    $editor_role->permissions()->save($p);
+
+    $p = Permission::create([
+      'permission' => 'delete.user',
+      'description' => 'delete users'
+    ]);
+
+    $editor_role->permissions()->save($p);
+  }
 }

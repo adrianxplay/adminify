@@ -9,4 +9,9 @@ class Permission extends Model
   protected $fillable = [
     'permission', 'description'
   ];
+
+  public function roles()
+  {
+    return $this->belongsToMany('Adrianxplay\Adminify\Role');
+  }
 }

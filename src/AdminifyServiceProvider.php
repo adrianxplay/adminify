@@ -15,7 +15,7 @@ class AdminifyServiceProvider extends ServiceProvider
     public function boot()
     {
         define('__APPNAMESPACE__', config('adminify.app_namespace'));
-        
+
         include __DIR__.'/routes/web.php';
         include __DIR__.'/helpers/helper.php';
 

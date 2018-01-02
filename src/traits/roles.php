@@ -15,4 +15,14 @@ trait Roles
   function permissions(){
     return $this->belongsToMany('Adrianxplay\Adminify\Permission');
   }
+
+  function getAllPermissions(){
+    $permissions = $this->permissions;
+    return $permissions->merge($this->role->permissions);
+  }
+
+  function isAllowedTo(string $permission){
+    $permissions = $this->getAllPermissions();
+    return !is_null($permissions->firstWhere('permission', $permission));
+  }
 }

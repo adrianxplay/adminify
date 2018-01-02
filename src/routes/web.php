@@ -9,25 +9,25 @@ Route::middleware(['web', 'auth'])->prefix('admin')->group(function(){
   });
 
   Route::get('dashboard', $namespace.'DashboardController@index');
-  Route::get('dashboard/{slug}', $namespace.'DashboardController@list_model');
+  Route::get('/{slug}', $namespace.'DashboardController@list_model');
 
   Route::get(
-    'dashboard/{slug}/create',
+    '{slug}/create',
     $namespace.'DashboardController@new_model'
   )->name('adminify.new-model');
 
   Route::post(
-    'dashboard/{slug}',
+    '{slug}',
     $namespace.'DashboardController@create_model'
   )->name('adminify.create-model');
 
   Route::get(
-    'dashboard/{slug}/{id}',
+    '{slug}/{id}',
     $namespace.'DashboardController@edit_model'
   )->name('adminify.edit-model');
 
   Route::post(
-    'dashboard/{slug}/{id}',
+    '{slug}/{id}',
     $namespace.'DashboardController@update_model'
   )->name('adminify.update-model');
 

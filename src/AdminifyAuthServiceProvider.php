@@ -25,33 +25,50 @@ class AdminifyAuthServiceProvider extends ServiceProvider
     public function boot()
     {
         Gate::define('read-dashboard', function($user){
-          dd(Request::all());
           if($user->role->slug === "root")
             return true;
 
-          $role_permissions = $user->role->permissions;
-
-          dd($role_permissions);
-
-          // $role_permissions = $ro
-
+          return $user->isAllowedTo('dashboard');
         });
 
         Gate::define('create-model', function($user){
           if($user->role->slug === "root")
             return true;
+
+          $path = explode("/", Request::path());
+          $slug = $path[1];
+
+          return $user->isAllowedTo("$slug.create");
         });
+
         Gate::define('read-model', function($user){
           if($user->role->slug === "root")
             return true;
+
+          $path = explode("/", Request::path());
+          $slug = $path[1];
+
+          return $user->isAllowedTo("$slug.read");
         });
+
         Gate::define('update-model', function($user){
           if($user->role->slug === "root")
             return true;
+
+          $path = explode("/", Request::path());
+          $slug = $path[1];
+
+          return $user->isAllowedTo("$slug.update");
         });
+
         Gate::define('delete-model', function($user){
           if($user->role->slug === "root")
             return true;
+
+          $path = explode("/", Request::path());
+          $slug = $path[1];
+
+          return $user->isAllowedTo("$slug.delete");
         });
     }
 }

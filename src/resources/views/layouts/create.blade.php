@@ -43,7 +43,7 @@
                   @foreach ($properties as $key => $value)
                     @php
                       $name = $value['field_type'];
-                      $view_name = "adminify::partials._".$name."-field";
+                      $view_name = "adminify::widgets._".$name."-field";
                     @endphp
                     @if($name !== "primary")
                       @include($view_name)

@@ -9,6 +9,6 @@ class Menu extends Model
     protected $fillable = ["name", "slug", "enabled"];
 
     function elements(){
-      return $this->hasMany('Adrianxplay\Adminify\MenuElement');
+      return $this->hasMany('Adrianxplay\Adminify\Link');
     }
 }

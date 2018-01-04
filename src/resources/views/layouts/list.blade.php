@@ -3,7 +3,7 @@
 @section('content')
 
   <div class="row">
-      <div class="col-md-12 col-lg-12 col-sm-12">
+      <div class="col-md-8 col-lg-8 col-sm-8">
           <div class="card">
             <div class="table-responsive">
               <table class="table table-hover table-stripped">
@@ -42,6 +42,13 @@
             </div>
           </div>
           {{$data->links()}}
+      </div>
+      <div class="col-md-4 col-lg-4">
+        <div class="card">
+          <div class="header">
+            <h4 class="title">Filters</h4>
+          </div>
+        </div>
       </div>
   </div>
 

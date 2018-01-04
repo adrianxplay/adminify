@@ -1,127 +1,184 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <link rel="icon" type="image/png" sizes="16x16" href="{{asset('vendor/adrianxplay/plugins/images/favicon.png')}}">
-    <title>Ample Admin Template - The Ultimate Multipurpose admin template</title>
-    <!-- Bootstrap Core CSS -->
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Menu CSS -->
-    <link href="{{asset('vendor/adrianxplay/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.css')}}" rel="stylesheet">
-    <!-- toast CSS -->
-    <link href="{{asset('vendor/adrianxplay/plugins/bower_components/toast-master/css/jquery.toast.css')}}" rel="stylesheet">
-    <!-- morris CSS -->
-    <link href="{{asset('vendor/adrianxplay/plugins/bower_components/morrisjs/morris.css')}}" rel="stylesheet">
-    <!-- chartist CSS -->
-    <link href="{{asset('vendor/adrianxplay/plugins/bower_components/chartist-js/dist/chartist.min.css')}}" rel="stylesheet">
-    <link href="{{asset('vendor/adrianxplay/plugins/bower_components/chartist-plugin-tooltip-master/dist/chartist-plugin-tooltip.css')}}" rel="stylesheet">
-    <!-- animation CSS -->
-    <link href="{{asset('vendor/adrianxplay/css/animate.css')}}" rel="stylesheet">
-    <!-- Custom CSS -->
-    <link href="{{asset('vendor/adrianxplay/css/style.css')}}" rel="stylesheet">
-    <!-- color CSS -->
-    <link href="{{asset('vendor/adrianxplay/css/colors/default.css')}}" id="theme" rel="stylesheet">
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-<![endif]-->
-</head>
+	<meta charset="utf-8" />
 
-<body class="fix-header">
-    <!-- ============================================================== -->
-    <!-- Preloader -->
-    <!-- ============================================================== -->
-    <div class="preloader">
-        <svg class="circular" viewBox="25 25 50 50">
-            <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10" />
-        </svg>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+	<title>Dashboard</title>
+
+	<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
+    <meta name="viewport" content="width=device-width" />
+
+
+    <!-- Bootstrap core CSS     -->
+    <link href="{{asset("vendor/adrianxplay/css/bootstrap.min.css")}}" rel="stylesheet" />
+
+    <!-- Animation library for notifications   -->
+    <link href="{{asset("vendor/adrianxplay/css/animate.min.css")}}" rel="stylesheet"/>
+
+    <!--  Light Bootstrap Table core CSS    -->
+    <link href="{{asset("vendor/adrianxplay/css/light-bootstrap-dashboard.css?v=1.4.0")}}" rel="stylesheet"/>
+
+    <!--     Fonts and icons     -->
+    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href='http://fonts.googleapis.com/css?family=Roboto:400,700,300' rel='stylesheet' type='text/css'>
+    <link href="{{asset("vendor/adrianxplay/css/pe-icon-7-stroke.css")}}" rel="stylesheet" />
+		@yield('css')
+
+</head>
+<body>
+
+<div class="wrapper">
+    <div class="sidebar" data-color="black">
+    <!--
+        Tip 1: you can change the color of the sidebar using: data-color="blue | azure | green | orange | red | purple"
+        Tip 2: you can also add an image using data-image tag
+    -->
+			@include('adminify::partials._sidebar')
     </div>
-    <!-- ============================================================== -->
-    <!-- Wrapper -->
-    <!-- ============================================================== -->
-    <div id="wrapper">
-        <!-- ============================================================== -->
-        <!-- Topbar header - style you can find in pages.scss -->
-        <!-- ============================================================== -->
-        <nav class="navbar navbar-default navbar-static-top m-b-0">
-            <div class="navbar-header">
-                <div class="top-left-part">
-                    <!-- Logo -->
-                    <a class="logo" href="index.html"></a>
-                </div>
-                <!-- /Logo -->
-                <ul class="nav navbar-top-links navbar-right pull-right">
-                    <li>
-                        <form role="search" class="app-search hidden-sm hidden-xs m-r-10">
-                            <input type="text" placeholder="Search..." class="form-control"> <a href=""><i class="fa fa-search"></i></a> </form>
-                    </li>
-                    <li>
-                        <a class="profile-pic" href="#"> <img src="../plugins/images/users/varun.jpg" alt="user-img" width="36" class="img-circle"><b class="hidden-xs">Steave</b></a>
-                    </li>
-                </ul>
-            </div>
-            <!-- /.navbar-header -->
-            <!-- /.navbar-top-links -->
-            <!-- /.navbar-static-side -->
-        </nav>
-        <!-- End Top Navigation -->
-        <!-- ============================================================== -->
-        <!-- Left Sidebar - style you can find in sidebar.scss  -->
-        <!-- ============================================================== -->
-        <div class="navbar-default sidebar" role="navigation">
-          @include('adminify::partials._sidebar')
-        </div>
-        <!-- ============================================================== -->
-        <!-- End Left Sidebar -->
-        <!-- ============================================================== -->
-        <!-- ============================================================== -->
-        <!-- Page Content -->
-        <!-- ============================================================== -->
-        <div id="page-wrapper">
+
+    <div class="main-panel">
+        <nav class="navbar navbar-default navbar-fixed">
             <div class="container-fluid">
-                @yield('content')
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navigation-example-2">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="#">Dashboard</a>
+                </div>
+                <div class="collapse navbar-collapse">
+                    <ul class="nav navbar-nav navbar-left">
+                        <li>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <i class="fa fa-dashboard"></i>
+								<p class="hidden-lg hidden-md">Dashboard</p>
+                            </a>
+                        </li>
+                        <li class="dropdown">
+                              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                    <i class="fa fa-globe"></i>
+                                    <b class="caret hidden-lg hidden-md"></b>
+									<p class="hidden-lg hidden-md">
+										5 Notifications
+										<b class="caret"></b>
+									</p>
+                              </a>
+                              <ul class="dropdown-menu">
+                                <li><a href="#">Notification 1</a></li>
+                                <li><a href="#">Notification 2</a></li>
+                                <li><a href="#">Notification 3</a></li>
+                                <li><a href="#">Notification 4</a></li>
+                                <li><a href="#">Another notification</a></li>
+                              </ul>
+                        </li>
+                        <li>
+                           <a href="">
+                                <i class="fa fa-search"></i>
+								<p class="hidden-lg hidden-md">Search</p>
+                            </a>
+                        </li>
+                    </ul>
+
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>
+                           <a href="">
+                               <p>Account</p>
+                            </a>
+                        </li>
+                        <li class="dropdown">
+                              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                    <p>
+										Dropdown
+										<b class="caret"></b>
+									</p>
+
+                              </a>
+                              <ul class="dropdown-menu">
+                                <li><a href="#">Action</a></li>
+                                <li><a href="#">Another action</a></li>
+                                <li><a href="#">Something</a></li>
+                                <li><a href="#">Another action</a></li>
+                                <li><a href="#">Something</a></li>
+                                <li class="divider"></li>
+                                <li><a href="#">Separated link</a></li>
+                              </ul>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <p>Log out</p>
+                            </a>
+                        </li>
+						<li class="separator hidden-lg"></li>
+                    </ul>
+                </div>
             </div>
-            <!-- /.container-fluid -->
-            {{-- <footer class="footer text-center"> 2017 &copy; Ample Admin brought to you by wrappixel.com </footer> --}}
+        </nav>
+
+
+        <div class="content">
+            <div class="container-fluid">
+								@yield('content')
+            </div>
         </div>
-        <!-- ============================================================== -->
-        <!-- End Page Content -->
-        <!-- ============================================================== -->
+
+
+        <footer class="footer">
+            <div class="container-fluid">
+                <nav class="pull-left">
+                    <ul>
+                        <li>
+                            <a href="#">
+                                Home
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                Company
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                Portfolio
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                               Blog
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+                <p class="copyright pull-right">
+                    &copy; <script>document.write(new Date().getFullYear())</script> <a href="http://www.creative-tim.com">Creative Tim</a>, made with love for a better web
+                </p>
+            </div>
+        </footer>
+
     </div>
-    <!-- ============================================================== -->
-    <!-- End Wrapper -->
-    <!-- ============================================================== -->
-    <!-- ============================================================== -->
-    <!-- All Jquery -->
-    <!-- ============================================================== -->
-    <script src="{{asset('vendor/adrianxplay/plugins/bower_components/jquery/dist/jquery.min.js')}}"></script>
-    <!-- Bootstrap Core JavaScript -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <!-- Menu Plugin JavaScript -->
-    <script src="{{asset('vendor/adrianxplay/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.js')}}"></script>
-    <!--slimscroll JavaScript -->
-    <script src="{{asset('vendor/adrianxplay/js/jquery.slimscroll.js')}}"></script>
-    <!--Wave Effects -->
-    <script src="{{asset('vendor/adrianxplay/js/waves.js')}}"></script>
-    <!--Counter js -->
-    <script src="{{asset('vendor/adrianxplay/plugins/bower_components/waypoints/lib/jquery.waypoints.js')}}"></script>
-    <script src="{{asset('vendor/adrianxplay/plugins/bower_components/counterup/jquery.counterup.min.js')}}"></script>
-    <!-- chartist chart -->
-    <script src="{{asset('vendor/adrianxplay/plugins/bower_components/chartist-js/dist/chartist.min.js')}}"></script>
-    <script src="{{asset('vendor/adrianxplay/plugins/bower_components/chartist-plugin-tooltip-master/dist/chartist-plugin-tooltip.min.js')}}"></script>
-    <!-- Sparkline chart JavaScript -->
-    <script src="{{asset('vendor/adrianxplay/plugins/bower_components/jquery-sparkline/jquery.sparkline.min.js')}}"></script>
-    <!-- Custom Theme JavaScript -->
-    <script src="{{asset('vendor/adrianxplay/js/custom.min.js')}}"></script>
-    <script src="{{asset('vendor/adrianxplay/js/dashboard1.js')}}"></script>
-    <script src="{{asset('vendor/adrianxplay/plugins/bower_components/toast-master/js/jquery.toast.js')}}"></script>
+</div>
+
+
 </body>
+
+  <!--   Core JS Files   -->
+  <script src="{{asset("vendor/adrianxplay/js/jquery.3.2.1.min.js")}}" type="text/javascript"></script>
+	<script src="{{asset("vendor/adrianxplay/js/bootstrap.min.js")}}" type="text/javascript"></script>
+
+	<!--  Charts Plugin -->
+	<script src="{{asset("vendor/adrianxplay/js/chartist.min.js")}}"></script>
+
+  <!--  Notifications Plugin    -->
+  <script src="{{asset("vendor/adrianxplay/js/bootstrap-notify.js")}}"></script>
+
+  <!--  Google Maps Plugin    -->
+  <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script>
+
+  <!-- Light Bootstrap Table Core javascript and methods for Demo purpose -->
+	<script src="{{asset("vendor/adrianxplay/js/light-bootstrap-dashboard.js?v=1.4.0")}}"></script>
+	@yield('js')
 
 </html>

@@ -23,7 +23,7 @@ trait ModelValidator
       if($field_name === "email")
         $validation_str .= "$field_name|";
       else if($field_name === "password")
-        $validation_str .= "confirmed|";
+        $validation_str .= "confirmed|required|";
 
       if(! empty($model_data))
         $validation_str .= $model_data;

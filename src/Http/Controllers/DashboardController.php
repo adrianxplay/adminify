@@ -147,6 +147,8 @@ class DashboardController extends Controller
       $Model = $ModelAdmin->get_model();
       $data = $request->toArray();
       $validation_rules = $this->getValidationRules($ModelAdmin->properties);
+      // dd($validation_rules);
+      // dd($request->all());
 
       Validator::make($request->all(), $validation_rules)->validate();
 

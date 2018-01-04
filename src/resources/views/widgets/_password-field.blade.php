@@ -1,12 +1,14 @@
-<div class="form-group">
-  <label for="{{$key}}" class="col-md-12">{{ucfirst($key)}}</label>
-  <div class="col-md-12">
-    <input name="{{$key}}" type="password" class="form-control" placeholder="password">
+<div class="row">
+  <div class="col-md-6">
+    <div class="form-group">
+      <label for="{{$key}}">{{ucfirst($key)}}</label>
+        <input name="{{$key}}" type="password" class="form-control" placeholder="password">
+    </div>
   </div>
-</div>
-<div class="form-group">
-  <label for="{{$key}}" class="col-md-12">{{ucfirst($key)}} confirm</label>
-  <div class="col-md-12">
-    <input name="{{$key}}_confirmation" type="password" class="form-control" placeholder="password confirmation">
+  <div class="col-md-6">
+    <div class="form-group">
+      <label for="{{$key}}">{{ucfirst($key)}} confirm</label>
+      <input name="{{$key}}_confirmation" type="password" class="form-control" placeholder="password confirmation">
+    </div>
   </div>
 </div>

@@ -3,6 +3,7 @@
 namespace Adrianxplay\Adminify\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Adrianxplay\Adminify\Menu;
 use Adrianxplay\Adminify\Admin\UserAdmin;
 use Adrianxplay\Adminify\Traits\ModelValidator;
 use Illuminate\Support\Facades\Gate;
@@ -10,6 +11,9 @@ use Validator;
 
 class DashboardController extends Controller
 {
+    function __construct(){
+      $this->menu = Menu::whereEnabled(true)->first();
+    }
     /**
      * Validation rules trait
      *
@@ -23,7 +27,10 @@ class DashboardController extends Controller
      */
     function index(Request $request){
       if(Gate::allows('read-dashboard', $request->user()))
-        return view("adminify::layouts.dashboard");
+        return view("adminify::layouts.dashboard")
+               ->with([
+                 'menu' => $this->menu
+               ]);
       else abort(403, 'unauthorized action');
     }
 
@@ -47,7 +54,8 @@ class DashboardController extends Controller
              ->with([
                'data' => $data,
                'properties' => $Model->read_only,
-               'slug' => $slug
+               'slug' => $slug,
+               'menu' => $this->menu
              ]);
     }
 
@@ -69,7 +77,8 @@ class DashboardController extends Controller
         'data' => $result,
         'properties' => $ModelAdmin->properties,
         'slug' => $slug,
-        'id' => $id
+        'id' => $id,
+        'menu' => $this->menu
       ]);
     }
 
@@ -121,7 +130,8 @@ class DashboardController extends Controller
       return view("adminify::layouts.create", [
         'data' => [],
         'properties' => $ModelAdmin->properties,
-        'slug' => $slug
+        'slug' => $slug,
+        'menu' => $this->menu
       ]);
     }
 

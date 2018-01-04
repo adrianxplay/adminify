@@ -82,7 +82,7 @@
         <!-- Left Sidebar - style you can find in sidebar.scss  -->
         <!-- ============================================================== -->
         <div class="navbar-default sidebar" role="navigation">
-            <!-- Navigation -->
+            @include('adminify::partials._sidebar')
         </div>
         <!-- ============================================================== -->
         <!-- End Left Sidebar -->

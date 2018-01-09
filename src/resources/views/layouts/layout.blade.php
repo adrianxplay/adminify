@@ -12,7 +12,8 @@
 
 
     <!-- Bootstrap core CSS     -->
-    <link href="{{asset("vendor/adrianxplay/css/bootstrap.min.css")}}" rel="stylesheet" />
+    {{-- <link href="{{asset("vendor/adrianxplay/css/bootstrap.min.css")}}" rel="stylesheet" /> --}}
+		<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
     <!-- Animation library for notifications   -->
     <link href="{{asset("vendor/adrianxplay/css/animate.min.css")}}" rel="stylesheet"/>
@@ -24,7 +25,8 @@
     <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
     <link href='http://fonts.googleapis.com/css?family=Roboto:400,700,300' rel='stylesheet' type='text/css'>
     <link href="{{asset("vendor/adrianxplay/css/pe-icon-7-stroke.css")}}" rel="stylesheet" />
-		@yield('css')
+    <link href="{{asset("vendor/adrianxplay/css/default.css")}}" rel="stylesheet" />
+		@stack('css')
 
 </head>
 <body>
@@ -166,7 +168,8 @@
 
   <!--   Core JS Files   -->
   <script src="{{asset("vendor/adrianxplay/js/jquery.3.2.1.min.js")}}" type="text/javascript"></script>
-	<script src="{{asset("vendor/adrianxplay/js/bootstrap.min.js")}}" type="text/javascript"></script>
+	{{-- <script src="{{asset("vendor/adrianxplay/js/bootstrap.min.js")}}" type="text/javascript"></script> --}}
+	<script src="//netdna.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
 	<!--  Charts Plugin -->
 	<script src="{{asset("vendor/adrianxplay/js/chartist.min.js")}}"></script>
@@ -179,6 +182,6 @@
 
   <!-- Light Bootstrap Table Core javascript and methods for Demo purpose -->
 	<script src="{{asset("vendor/adrianxplay/js/light-bootstrap-dashboard.js?v=1.4.0")}}"></script>
-	@yield('js')
+	@stack('js')
 
 </html>

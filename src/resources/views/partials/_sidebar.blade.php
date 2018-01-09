@@ -13,7 +13,7 @@
               </a>
           </li>
           <li>
-              <a href="user.html">
+              <a href="{{url("admin/user")}}">
                   <i class="pe-7s-user"></i>
                   <p>Users</p>
               </a>

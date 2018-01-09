@@ -3,6 +3,7 @@ namespace Adrianxplay\Adminify\Admin;
 
 use Adrianxplay\Adminify\Admin\Admin;
 use Adrianxplay\Adminify\Role;
+use Adrianxplay\Adminify\Permission;
 
 class RoleAdmin extends Admin{
 
@@ -28,7 +29,13 @@ class RoleAdmin extends Admin{
     ]
   ];
 
-  public $relationships = [];
+  public $relationships = [
+    // 'oneToOne' => [],
+    // 'oneToMany' => [],
+    'manyToMany' => [
+      Permission::class
+    ],
+  ];
 
   public $class_name = Role::class;
 

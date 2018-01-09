@@ -35,8 +35,8 @@
 
 @endsection
 
-@section('js')
+@push('js')
   @if ($errors->any())
     @include('adminify::js._error')
   @endif
-@endsection
+@endpush

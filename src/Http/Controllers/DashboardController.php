@@ -72,10 +72,32 @@ class DashboardController extends Controller
       $Model = $ModelAdmin->get_model();
 
       $result = $Model->findOrFail($id);
+      $relationships = [];
+
+      foreach ($ModelAdmin->relationships as $type => $models) {
+        $relationships[$type] = [];
+        foreach ($models as $class) {
+          $model = new $class;
+          $modelName = (new \ReflectionClass($model))->getShortName();
+          $filters[] = 'id';
+          $filters = array_merge($filters, $model->getFillable());
+
+          $results = [];
+          foreach ($model->all()->toArray() as $element) {
+            $formated_field = [];
+            foreach ($filters as $filter) {
+              $formated_field[$filter] = $element[$filter];
+            }
+            $results[] = $formated_field;
+          }
+          $relationships[$type][$modelName] = $results;
+        }
+      }
 
       return view("adminify::layouts.edit", [
         'data' => $result,
         'properties' => $ModelAdmin->properties,
+        'relationships' => $relationships,
         'slug' => $slug,
         'id' => $id,
         'menu' => $this->menu
@@ -130,6 +152,7 @@ class DashboardController extends Controller
       return view("adminify::layouts.create", [
         'data' => [],
         'properties' => $ModelAdmin->properties,
+        'relationships' => $ModelAdmin->relationships,
         'slug' => $slug,
         'menu' => $this->menu
       ]);

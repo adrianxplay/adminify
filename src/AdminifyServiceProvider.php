@@ -22,13 +22,12 @@ class AdminifyServiceProvider extends ServiceProvider
         $this->loadMigrationsFrom(__DIR__.'/database/migrations');
 
         $this->publishes([
-          __DIR__.'/resources/assets/' => public_path('vendor/adrianxplay')
+          __DIR__.'/resources/assets/' => public_path('vendor/adminify')
         ], 'public');
 
         $this->publishes([
           __DIR__.'/config/adminify.php' => config_path('adminify.php')
         ]);
-
 
         if($this->app->runningInConsole()){
           $this->commands([

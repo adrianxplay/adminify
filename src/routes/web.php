@@ -32,3 +32,6 @@ Route::middleware(['web', 'auth'])->prefix('admin')->group(function(){
   )->name('adminify.update-model');
 
 });
+
+$namespace = 'Adrianxplay\Adminify\Http\Controllers\\';
+Route::get('test', $namespace.'DashboardController@test');

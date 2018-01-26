@@ -1,12 +1,15 @@
-<div class="row">
-  <div class="col-md-12">
-    <div class="form-group">
-      <label for="{{$key}}">{{ucfirst($key)}}</label>
-      @if(! empty($data))
-        <input name="{{$key}}" type="text" class="form-control" value="{{$data[$key]}}">
-      @else
-        <input name="{{$key}}" type="text" class="form-control">
-      @endif
+<adminify-integer
+  inline-template
+  field="{{$field}}"
+  >
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="form-group">
+        <label for=""></label>
+        <input v-model="field" name="" type="text" class="form-control">
+      </div>
     </div>
   </div>
-</div>
+
+</adminify-integer>

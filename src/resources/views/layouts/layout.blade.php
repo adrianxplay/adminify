@@ -2,31 +2,28 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8" />
-
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-
 	<title>Dashboard</title>
-
 	<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
-    <meta name="viewport" content="width=device-width" />
+  <meta name="viewport" content="width=device-width" />
 
+  <!-- Bootstrap core CSS     -->
+  {{-- <link href="{{asset("vendor/adminify/css/bootstrap.min.css")}}" rel="stylesheet" /> --}}
+	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
-    <!-- Bootstrap core CSS     -->
-    {{-- <link href="{{asset("vendor/adrianxplay/css/bootstrap.min.css")}}" rel="stylesheet" /> --}}
-		<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <!-- Animation library for notifications   -->
+  <link href="{{asset("vendor/adminify/css/animate.min.css")}}" rel="stylesheet"/>
 
-    <!-- Animation library for notifications   -->
-    <link href="{{asset("vendor/adrianxplay/css/animate.min.css")}}" rel="stylesheet"/>
+  <!--  Light Bootstrap Table core CSS    -->
+  <link href="{{asset("vendor/adminify/css/light-bootstrap-dashboard.css?v=1.4.0")}}" rel="stylesheet"/>
 
-    <!--  Light Bootstrap Table core CSS    -->
-    <link href="{{asset("vendor/adrianxplay/css/light-bootstrap-dashboard.css?v=1.4.0")}}" rel="stylesheet"/>
-
-    <!--     Fonts and icons     -->
-    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
-    <link href='http://fonts.googleapis.com/css?family=Roboto:400,700,300' rel='stylesheet' type='text/css'>
-    <link href="{{asset("vendor/adrianxplay/css/pe-icon-7-stroke.css")}}" rel="stylesheet" />
-    <link href="{{asset("vendor/adrianxplay/css/default.css")}}" rel="stylesheet" />
-		@stack('css')
+  <!--     Fonts and icons     -->
+  {{-- <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet"> --}}
+  <link href='http://fonts.googleapis.com/css?family=Roboto:400,700,300' rel='stylesheet' type='text/css'>
+  {{-- <link href="{{asset("vendor/adminify/css/pe-icon-7-stroke.css")}}" rel="stylesheet" /> --}}
+	<link rel="stylesheet" href="https://unpkg.com/nprogress@0.2.0/nprogress.css">
+  <link href="{{asset("vendor/adminify/css/default.css")}}" rel="stylesheet" />
+	@stack('css')
 
 </head>
 <body>
@@ -121,8 +118,8 @@
         </nav>
 
 
-        <div class="content">
-            <div class="container-fluid">
+        <div class="content" id="main-container">
+            <div class="container-fluid" >
 								@yield('content')
             </div>
         </div>
@@ -167,21 +164,28 @@
 </body>
 
   <!--   Core JS Files   -->
-  <script src="{{asset("vendor/adrianxplay/js/jquery.3.2.1.min.js")}}" type="text/javascript"></script>
-	{{-- <script src="{{asset("vendor/adrianxplay/js/bootstrap.min.js")}}" type="text/javascript"></script> --}}
+  <script src="{{asset("vendor/adminify/js/jquery.3.2.1.min.js")}}" type="text/javascript"></script>
+	{{-- <script src="{{asset("vendor/adminify/js/bootstrap.min.js")}}" type="text/javascript"></script> --}}
 	<script src="//netdna.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
 	<!--  Charts Plugin -->
-	<script src="{{asset("vendor/adrianxplay/js/chartist.min.js")}}"></script>
+	<script src="{{asset("vendor/adminify/js/chartist.min.js")}}"></script>
 
   <!--  Notifications Plugin    -->
-  <script src="{{asset("vendor/adrianxplay/js/bootstrap-notify.js")}}"></script>
+  <script src="{{asset("vendor/adminify/js/bootstrap-notify.js")}}"></script>
 
   <!--  Google Maps Plugin    -->
-  <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script>
+  {{-- <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script> --}}
 
   <!-- Light Bootstrap Table Core javascript and methods for Demo purpose -->
-	<script src="{{asset("vendor/adrianxplay/js/light-bootstrap-dashboard.js?v=1.4.0")}}"></script>
+	<script src="{{asset("vendor/adminify/js/light-bootstrap-dashboard.js?v=1.4.0")}}"></script>
+	<script type="text/javascript" src="https://unpkg.com/nprogress@0.2.0/nprogress.js"></script>
+	<script type="text/javascript">
+		NProgress.configure({
+			parent: '#main-container',
+			speed: 300
+		});
+	</script>
 	@stack('js')
 
 </html>

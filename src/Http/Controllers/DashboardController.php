@@ -4,8 +4,11 @@ namespace Adrianxplay\Adminify\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Adrianxplay\Adminify\Menu;
+use Adrianxplay\Adminify\Role;
 use Adrianxplay\Adminify\Admin\UserAdmin;
+use Adrianxplay\Adminify\Admin\Admin;
 use Adrianxplay\Adminify\Traits\ModelValidator;
+use Adrianxplay\Adminify\Serialize\Serializer;
 use Illuminate\Support\Facades\Gate;
 use Validator;
 
@@ -149,10 +152,11 @@ class DashboardController extends Controller
       $ModelAdmin = class_lookup($class_name);
       $Model = $ModelAdmin->get_model();
 
+      $serialized = new Serializer($ModelAdmin);
+
       return view("adminify::layouts.create", [
-        'data' => [],
+        'model' => $serialized,
         'properties' => $ModelAdmin->properties,
-        'relationships' => $ModelAdmin->relationships,
         'slug' => $slug,
         'menu' => $this->menu
       ]);
@@ -163,6 +167,7 @@ class DashboardController extends Controller
      * @return view
      */
     function create_model(Request $request, $slug){
+      // return $request->all();
       if(Gate::denies('create-model', $request->user()))
         abort(403, 'unauthorized action');
       $class_name = ucfirst($slug)."Admin";
@@ -170,8 +175,6 @@ class DashboardController extends Controller
       $Model = $ModelAdmin->get_model();
       $data = $request->toArray();
       $validation_rules = $this->getValidationRules($ModelAdmin->properties);
-      // dd($validation_rules);
-      // dd($request->all());
 
       Validator::make($request->all(), $validation_rules)->validate();
 
@@ -183,8 +186,14 @@ class DashboardController extends Controller
 
       $Model->create($create);
 
-      return redirect()->back()->with('success', 'Model created!');
+      // return redirect()->back()->with('success', 'Model created!');
+      return response()->json(['success', 'Model created!']);
 
+    }
+
+
+    function test(){
+      return response()->json(['t' => 'kjajajaj']);
     }
 
 }

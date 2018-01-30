@@ -112,8 +112,10 @@ class DashboardController extends Controller
      * @return view
      */
     function update_model(Request $request, $slug, $id){
+
       if(Gate::denies('update-model', $request->user()))
         abort(403, 'unauthorized action');
+
       $class_name = ucfirst($slug)."Admin";
       $ModelAdmin = class_lookup($class_name);
       $Model = $ModelAdmin->get_model();

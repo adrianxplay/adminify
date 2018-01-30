@@ -26,37 +26,89 @@ Vue.component('adminify-input', {
 });
 
 
-let checkbox = {
-  template: `
-    <label v-show="input.visible">
-      <input type="checkbox" :value="input.id" >
-      {{input.description}}
-    </label>
-  `,
-  props: ['input']
-};
-
-
-Vue.component('adminify-multiple', {
-  props: ['inputs'],
-  components: {
-    'adminify-multiple-checkbox': checkbox
-  },
-  computed: {
-    chunks: function(){
-      return _.chunk(this.dataset, 3)
-    },
-  },
+Vue.component('adminify-manytomany', {
+  props: [
+    'inputs', 'name', 'class_name',
+    'subscribed', 'to-subscribe',
+    'to-unsubscribe', 'index', 'relation-type'
+  ],
   data: function(){
     return {
       query: "",
       filter: null,
-      dataset: _.map(this.inputs, function(input){ input.visible = false; return input; })
+      dataset: _.map(this.inputs, function(input){
+        input.visible = true;
+        input.checked = false;
+        return input;
+      }),
+      anyData: true,
     }
   },
   watch: {
     query: function(value){
+
+      this.anyData = true;
+
+      if(value == ""){
+        for( i in this.dataset ){
+          this.dataset[i].visible = true;
+        }
+        return true;
+      }
+
+      for(i in this.dataset){
+        this.dataset[i].visible = false;
+      }
+
       let data = this.filter.search(value);
+
+      if(data.length == 0){
+        this.anyData = false;
+        return true;
+      }
+
+      for( i in data ){
+        data[i].visible = true;
+      }
+    }
+  },
+  methods: {
+    clearFilter: function(){
+      this.query = "";
+      this.anyData = true;
+    },
+    toggle: function(input){
+      input.checked = !input.checked;
+
+      var data = {
+        data: input,
+        index: this.index,
+        type: this.relationType
+      }
+
+      switch (input.checked) {
+        case true:
+          var input = _.find(this.subscribed, function(e){
+            return e.id == input.id;
+          });
+          if(input === undefined){
+            app.$emit("subscribe", data);
+          }
+          break;
+        case false:
+
+          var input = _.find(this.subscribed, function(e){
+            return e.id == input.id;
+          });
+
+          data.subscribed = typeof input === "object" ? true : false;
+
+          app.$emit("unsubscribe", data);
+
+          break;
+        default:
+          console.error("shit");
+      }
     }
   },
   created: function(){
@@ -64,7 +116,12 @@ Vue.component('adminify-multiple', {
       keys: ['description', 'permission'],
       index: 'id'
     });
-  }
+  },
+});
+
+
+Vue.component('adminify-onetoone',{
+
 });
 
 
@@ -75,12 +132,15 @@ let app = new Vue({
     requesting: false
   },
   methods: {
+    test: function(){
+      console.log('hola k ase');
+    },
     pushdata(){
-      console.log(this.model);
       this.requesting = true;
       var url = window.adminify.form.route;
-      console.log(url);
       NProgress.start();
+
+      return true;
 
       axios
         .post(url, this.model)
@@ -124,10 +184,39 @@ let app = new Vue({
 
 function cleanForm(data){
   for(var key in data){
-    if(key !== "meta") data[key] = "";
+    if(key !== "meta" && key !== "errors") data[key] = "";
   }
 }
 
 app.$on('update-field', function(data){
   this.$data.model[data.property] = data.value
+});
+
+
+app.$on('subscribe', function(model){
+  this.$data.model.meta
+    .relationships[model.type][model.index]
+    .to_subscribe.push(model.data);
+});
+
+app.$on('unsubscribe', function(model){
+
+  if(model.subscribed){
+    this.$data.model.meta
+      .relationships[model.type][model.index]
+      .to_unsubscribe.push(model.data);
+  }
+  else {
+    var reference = this.$data.model.meta
+      .relationships[model.type][model.index]
+      .to_subscribe;
+
+    for(var i in reference){
+      if(reference[i].id === model.data.id){
+        console.log(reference, reference[i]);
+        reference.splice(i, 1);
+        break;
+      }
+    }
+  }
 });

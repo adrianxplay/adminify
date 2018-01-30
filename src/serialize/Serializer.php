@@ -36,7 +36,14 @@ class Serializer {
         }
       }
 
-      $this->meta['relationships'][$type] = $data;
+      $this->meta['relationships'][$type][] = [
+        'name' => $data[0]->meta['name'],
+        'class' => $data[0]->meta['class'],
+        'collection' => $data,
+        'subscribed' => [],
+        'to_subscribe' => [],
+        'to_unsubscribe' => []
+      ];
     }
 
   }

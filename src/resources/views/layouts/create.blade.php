@@ -5,7 +5,7 @@
   {{-- {{dd($properties, $model)}} --}}
 
   <div class="row" id="app">
-    <div class="col-md-6 col-lg-6 col-sm-6">
+    <div class="col-md-12 col-lg-12 col-sm-12" :synctest="test">
         <div class="card">
           <div class="header">
             <h4 class="title">CREATE {{strtoupper($slug)}}</h4>
@@ -25,40 +25,34 @@
                 @endif
               @endforeach
 
-              <button :disabled="requesting" type="submit" class="btn btn-info btn-fill pull-right">Create</button>
+              <button :disabled="requesting" type="submit" class="btn btn-primary btn-fill pull-right">Create</button>
               <div class="clearfix"></div>
             </form>
           </div>
         </div>
     </div>
-    <div class="col-md-6 col-lg-6 col-sm-6">
 
-      <adminify-multiple
-        inline-template
-        :inputs="model.meta.relationships.manyToMany">
-        <div class="card">
-          <div class="header">
-            <h4 class="title">LAURA SAD</h4>
+    <div class="col-sm-12">
+      @foreach ($model->meta['relationships'] as $type => $collections)
+        @foreach ($collections as $index => $collection)
+          @php
+            $vueReference = "model.meta.relationships.$type"."[$index]";
+          @endphp
+
+          <div class="col-md-4 col-lg-4">
+
+            @include("adminify::widgets._$type", [
+              'reference' => $vueReference,
+              'index' => $index,
+              'type' => $type
+            ])
           </div>
-          <div class="content">
-            <div class="row">
-              <div class="col-sm-12">
-                <input v-model="query" type="text" class="form-control" placeholder="filter">
-              </div>
-            </div>
 
-            <div class="row" v-for="inputs in chunks">
-              <div class="col-sm-4" v-for="input in dataset">
-                <adminify-multiple-checkbox :input="input" :query="query">
-                </adminify-multiple-checkbox>
-              </div>
-            </div>
-
-          </div>
-        </div>
-      </adminify-multiple>
+        @endforeach
+      @endforeach
 
     </div>
+
   </div>
 
 @endsection

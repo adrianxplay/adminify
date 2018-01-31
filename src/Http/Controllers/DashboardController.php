@@ -169,24 +169,54 @@ class DashboardController extends Controller
      * @return view
      */
     function create_model(Request $request, $slug){
-      // return $request->all();
       if(Gate::denies('create-model', $request->user()))
         abort(403, 'unauthorized action');
+
+      $data = $request->input('model');
       $class_name = ucfirst($slug)."Admin";
       $ModelAdmin = class_lookup($class_name);
       $Model = $ModelAdmin->get_model();
       $data = $request->toArray();
       $validation_rules = $this->getValidationRules($ModelAdmin->properties);
 
-      Validator::make($request->all(), $validation_rules)->validate();
+      $create = $request->input('model');
 
-      $create = $request->all();
+      Validator::make($create, $validation_rules)->validate();
 
       if(array_key_exists("password", $create)){
         $create["password"] = bcrypt($create["password"]);
       }
 
-      $Model->create($create);
+      $model = $Model->create($create);
+
+      /**
+       * Looping through related models
+       */
+
+       $relationships = $data['model']['meta']['relationships'];
+
+       foreach ($relationships as $type => $typeCollection) {
+         foreach($typeCollection as $currentModelCollection){
+           switch ($type) {
+             case 'manyToMany':
+               $query = $model->belongsToMany($currentModelCollection['class']);
+
+               $toSubscribe = array_map(function($element){
+                 return $element['id'];
+               }, $currentModelCollection['to_subscribe']);
+
+               $query->sync($toSubscribe);
+
+               break;
+
+             default:
+               # code...
+               break;
+           }
+         }
+       }
+
+       // return $relationships;
 
       // return redirect()->back()->with('success', 'Model created!');
       return response()->json(['success', 'Model created!']);

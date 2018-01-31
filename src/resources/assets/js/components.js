@@ -141,7 +141,7 @@ let app = new Vue({
       NProgress.start();
 
       axios
-        .post(url, this.model)
+        .post(url, {model: this.model})
         .then(response => {
           console.log(response);
           NProgress.done();

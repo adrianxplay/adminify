@@ -5,7 +5,7 @@
   {{-- {{dd($properties, $model)}} --}}
 
   <div class="row" id="app">
-    <div class="col-md-12 col-lg-12 col-sm-12" :synctest="test">
+    <div class="col-md-12 col-lg-12 col-sm-12">
         <div class="card">
           <div class="header">
             <h4 class="title">CREATE {{strtoupper($slug)}}</h4>

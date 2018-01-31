@@ -140,8 +140,6 @@ let app = new Vue({
       var url = window.adminify.form.route;
       NProgress.start();
 
-      return true;
-
       axios
         .post(url, this.model)
         .then(response => {

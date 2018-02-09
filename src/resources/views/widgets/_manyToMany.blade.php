@@ -7,6 +7,7 @@
   :to-subscribe="{{$reference}}.to_subscribe"
   :to-unsubscribe="{{$reference}}.to_unsubscribe"
   index="{{$index}}"
+  :submit-flag="submited"
   relation-type="{{$type}}">
 
   <div class="col-sm-12 adminify-multiselect">

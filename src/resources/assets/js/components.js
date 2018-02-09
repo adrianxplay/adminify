@@ -28,7 +28,7 @@ Vue.component('adminify-input', {
 Vue.component('adminify-manytomany',{
   props: [
     'collection', 'name', 'class_name',
-    'index', 'relation-type',
+    'index', 'relation-type', 'submitFlag'
   ],
   data: function(){
     return {
@@ -36,6 +36,20 @@ Vue.component('adminify-manytomany',{
       toSubscribe: [],
       toUsubscribe: [],
       subscribed: []
+    }
+  },
+  watch: {
+    submitFlag: function(next, previous){
+      if(next){
+        this.toSubscribe = [];
+        this.toUsubscribe = [];
+        this.subscribed = [];
+        _.map(this.dataset, function(el){
+          el.visible = true;
+        });
+
+        this.$parent.$emit("adminify-manytomany-reset");
+      }
     }
   },
   methods: {
@@ -85,11 +99,13 @@ let app = new Vue({
   el: '#app',
   data: {
     model: window.adminify.model,
-    requesting: false
+    requesting: false,
+    submited: false
   },
   methods: {
     pushdata(){
       this.requesting = true;
+      this.submited = true;
       var url = window.adminify.form.route;
       NProgress.start();
 
@@ -185,4 +201,9 @@ app.$on('adminify-unsubscribe', function(model){
       }
     }
   }
+});
+
+
+app.$on('adminify-manytomany-reset', function(){
+  this.submited = false;
 });

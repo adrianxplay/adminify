@@ -198,6 +198,7 @@ class DashboardController extends Controller
        foreach ($relationships as $type => $typeCollection) {
          foreach($typeCollection as $currentModelCollection){
            switch ($type) {
+
              case 'manyToMany':
                $query = $model->belongsToMany($currentModelCollection['class']);
 
@@ -206,6 +207,12 @@ class DashboardController extends Controller
                }, $currentModelCollection['to_subscribe']);
 
                $query->sync($toSubscribe);
+
+               break;
+
+             case 'oneToMany':
+
+               $test = '';
 
                break;
 

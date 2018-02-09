@@ -39,13 +39,20 @@
             $vueReference = "model.meta.relationships.$type"."[$index]";
           @endphp
 
-          <div class="col-md-4 col-lg-4">
-
-            @include("adminify::widgets._$type", [
-              'reference' => $vueReference,
-              'index' => $index,
-              'type' => $type
-            ])
+          <div class="col-md-6 col-lg-6">
+            <div class="card">
+              <div class="header">
+                <h4 class="title">Prueba</h4>
+              </div>
+              <div class="content">
+                @include("adminify::widgets._$type", [
+                  'reference' => $vueReference,
+                  'index' => $index,
+                  'type' => $type
+                ])
+                <div class="clearfix"></div>
+              </div>
+            </div>
           </div>
 
         @endforeach

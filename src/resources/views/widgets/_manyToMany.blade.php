@@ -1,6 +1,6 @@
-<adminify-manyToMany
+<adminify-manytomany
   inline-template
-  :inputs="{{$reference}}.collection"
+  :collection="{{$reference}}.collection"
   :name="{{$reference}}.name"
   :class_name="{{$reference}}.class"
   :subscribed="{{$reference}}.subscribed"
@@ -8,44 +8,46 @@
   :to-unsubscribe="{{$reference}}.to_unsubscribe"
   index="{{$index}}"
   relation-type="{{$type}}">
-  <div class="card card-widget adminify-manytomany">
-    <div class="header">
-      <h4 class="title">@{{name}}</h4>
-    </div>
-    <div class="content">
-      <div class="col-md-12">
-        <div class="col-sm-9">
-          <input v-model="query" type="text" class="form-control" placeholder="filter">
-        </div>
-        <div class="col-sm-3">
-          <button class="btn btn-primary btn-fill" @click="clearFilter">
-            <i class="fa fa-trash" aria-hidden="true"></i>
-          </button>
-        </div>
-      </div>
 
-      <div class="col-sm-12" v-if="!anyData">
-        {{-- TODO: translate this --}}
-        <label for="" class="adminify-error">
-          No hay resultados que mostrar :(
-        </label>
-      </div>
+  <div class="col-sm-12 adminify-multiselect">
 
+    <div class="col-sm-5 list">
       <div class="col-sm-12">
-        <ul>
-          <li v-for="input in dataset">
-            <div v-show="input.visible">
-              <label>
-                <input type="checkbox" :checked="input.checked" @change="toggle(input)">
-                @{{input.description}}
-              </label>
-            </div>
-          </li>
-        </ul>
+        <div
+          v-for="element in dataset"
+          class="list-element"
+          v-if="element.visible"
+          @click="subscribe(element)">
+          @{{element.description}}
+        </div>
       </div>
-
-      <div class="clearfix"></div>
-
     </div>
+
+    <div class="col-sm-2">
+      <button
+        class="btn btn-primary btn-fill">
+        >>
+      </button>
+
+      <button
+        class="btn btn-primary btn-fill"
+        @click="unsubscribeAll"
+      >
+        <<
+      </button>
+    </div>
+
+    <div class="col-sm-5 list">
+      <div class="col-sm-12">
+        <div
+          v-for="(element, index) in toSubscribe"
+          class="list-element"
+          @click="unsubscribe(element, index)">
+          @{{element.description}}
+        </div>
+      </div>
+    </div>
+
   </div>
-</adminify-manyToMany>
+
+</adminify-manytomany>

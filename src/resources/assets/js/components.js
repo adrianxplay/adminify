@@ -25,105 +25,61 @@ Vue.component('adminify-input', {
   }
 });
 
-
-Vue.component('adminify-manytomany', {
+Vue.component('adminify-manytomany',{
   props: [
-    'inputs', 'name', 'class_name',
-    'subscribed', 'to-subscribe',
-    'to-unsubscribe', 'index', 'relation-type'
+    'collection', 'name', 'class_name',
+    'index', 'relation-type',
   ],
   data: function(){
     return {
-      query: "",
-      filter: null,
-      dataset: _.map(this.inputs, function(input){
-        input.visible = true;
-        input.checked = false;
-        return input;
-      }),
-      anyData: true,
-    }
-  },
-  watch: {
-    query: function(value){
-
-      this.anyData = true;
-
-      if(value == ""){
-        for( i in this.dataset ){
-          this.dataset[i].visible = true;
-        }
-        return true;
-      }
-
-      for(i in this.dataset){
-        this.dataset[i].visible = false;
-      }
-
-      let data = this.filter.search(value);
-
-      if(data.length == 0){
-        this.anyData = false;
-        return true;
-      }
-
-      for( i in data ){
-        data[i].visible = true;
-      }
+      dataset: [],
+      toSubscribe: [],
+      toUsubscribe: [],
+      subscribed: []
     }
   },
   methods: {
-    clearFilter: function(){
-      this.query = "";
-      this.anyData = true;
-    },
-    toggle: function(input){
-      input.checked = !input.checked;
+    subscribe: function(element){
+      this.toSubscribe.push(element);
+      element.visible = false;
+      var tmp = Object.assign({}, element, {});
+      delete tmp.visible;
 
-      var data = {
-        data: input,
+      this.$parent.$emit('adminify-subscribe', {
         index: this.index,
-        type: this.relationType
-      }
+        type: this.relationType,
+        data: tmp
+      });
 
-      switch (input.checked) {
-        case true:
-          var input = _.find(this.subscribed, function(e){
-            return e.id == input.id;
-          });
-          if(input === undefined){
-            app.$emit("subscribe", data);
-          }
-          break;
-        case false:
+    },
+    unsubscribe: function(element, index){
+      _.filter(this.dataset, function(o){
+        if(o.id === element.id)
+          o.visible = true;
+      });
+      this.toSubscribe.splice(index, 1);
+      var tmp = Object.assign({}, element, {});
+      delete tmp.visible;
 
-          var input = _.find(this.subscribed, function(e){
-            return e.id == input.id;
-          });
-
-          data.subscribed = typeof input === "object" ? true : false;
-
-          app.$emit("unsubscribe", data);
-
-          break;
-        default:
-          console.error("shit");
-      }
+      this.$parent.$emit('adminify-unsubscribe', {
+        index: this.index,
+        type: this.relationType,
+        data: tmp
+      });
+    },
+    unsubscribeAll: function(){
+      this.toSubscribe = [];
+      _.filter(this.dataset, function(element){
+        element.visible = true;
+      });
     }
   },
-  created: function(){
-    this.filter = new Fuse(this.dataset, {
-      keys: ['description', 'permission'],
-      index: 'id'
+  mounted: function(){
+    this.dataset = _.map(this.collection, function(element){
+      return Object.assign({}, element, {visible: true});
     });
-  },
+  }
 });
-
-
-Vue.component('adminify-onetoone',{
-
-});
-
 
 let app = new Vue({
   el: '#app',
@@ -132,9 +88,6 @@ let app = new Vue({
     requesting: false
   },
   methods: {
-    test: function(){
-      console.log('hola k ase');
-    },
     pushdata(){
       this.requesting = true;
       var url = window.adminify.form.route;
@@ -184,6 +137,21 @@ function cleanForm(data){
   for(var key in data){
     if(key !== "meta" && key !== "errors") data[key] = "";
   }
+
+  for(relation in data.meta.relationships){
+    if(relation === "manyToMany"){
+
+      app.$emit('cleanComponents');
+
+      for(collection in data.meta.relationships.manyToMany){
+        var tmp = data.meta.relationships.manyToMany[collection];
+        tmp.subscribed = [];
+        tmp.to_subscribe = [];
+        tmp.to_unsubscribe = [];
+
+      }
+    }
+  }
 }
 
 app.$on('update-field', function(data){
@@ -191,13 +159,13 @@ app.$on('update-field', function(data){
 });
 
 
-app.$on('subscribe', function(model){
+app.$on('adminify-subscribe', function(model){
   this.$data.model.meta
     .relationships[model.type][model.index]
     .to_subscribe.push(model.data);
 });
 
-app.$on('unsubscribe', function(model){
+app.$on('adminify-unsubscribe', function(model){
 
   if(model.subscribed){
     this.$data.model.meta
@@ -211,7 +179,7 @@ app.$on('unsubscribe', function(model){
 
     for(var i in reference){
       if(reference[i].id === model.data.id){
-        console.log(reference, reference[i]);
+        // console.log(reference, reference[i]);
         reference.splice(i, 1);
         break;
       }

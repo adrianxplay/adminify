@@ -1,6 +1,7 @@
 let _ = require("lodash");
 let Fuse = require("fuse.js");
 
+
 Vue.component('adminify-input', {
   methods: {
     updateField(value){
@@ -21,6 +22,25 @@ Vue.component('adminify-input', {
   watch: {
     field: function(next, previous){
       this.property = next;
+    }
+  }
+});
+
+Vue.component('adminify-enum', {
+  props: ['options'],
+  data: function(){
+    return {
+      selected: null
+    }
+  },
+  template: `
+    <select>
+      <option @change="select(option)" v-for="option in options">{{option}}</option>
+    </select>
+  `,
+  methods:{
+    select: function(option){
+      this.selected = option;
     }
   }
 });
@@ -195,7 +215,6 @@ app.$on('adminify-unsubscribe', function(model){
 
     for(var i in reference){
       if(reference[i].id === model.data.id){
-        // console.log(reference, reference[i]);
         reference.splice(i, 1);
         break;
       }

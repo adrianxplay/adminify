@@ -17,10 +17,15 @@
 
               @foreach ($properties as $key => $value)
                 @php
-                  $name = $value['field_type'];
-                  $view_name = "adminify::widgets._input-field";
+                  try{
+                    $name = $value['field_type'];
+                    $view_name = "adminify::widgets._input-field";
+
+                  }catch(ErrorException $e){
+                    $name = null;
+                  }
                 @endphp
-                @if($name !== "primary")
+                @if($name !== "primary" && $name !== null)
                   @include($view_name, ['field' => $key])
                 @endif
               @endforeach

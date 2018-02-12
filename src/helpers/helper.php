@@ -19,7 +19,9 @@ function get_class_instance($class){
  * @return object
  */
 function class_lookup($class_name){
-  if(class_exists($class_name))
+  $data = [__APPNAMESPACE__, "Admin", $class_name];
+  $class = implode($data, "\\");
+  if(class_exists($class))
     return new $class();
   else if(class_exists("Adrianxplay\\Adminify\\Admin\\".$class_name)){
     $class = "Adrianxplay\\Adminify\\Admin\\".$class_name;
